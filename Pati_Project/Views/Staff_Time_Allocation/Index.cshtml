@@ -1,0 +1,296 @@
+﻿@using Pati_Project.Controllers;
+@using Pati_Project.Models;
+@model Pati_Project.Models.staff_time_allocation
+
+<head>
+    <script src="~/Scripts/my/jquery.formatCurrency-1.4.0.js"></script>
+    <script src="~/Scripts/my/calc.js"></script>
+</head>
+<h2>Add salary</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        <div id="frame0" style="border:double; padding:15px;">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+
+            <div class="form-group">
+                @Html.Label("Year", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.DropDownList("Year", (Enumerable.Range(DateTime.Now.Year, 10).
+                                       Select(i => new SelectListItem
+                                       {
+                                           Value = i.ToString(),
+                                           Text = i.ToString(),
+                                           Selected = (i == DateTime.Now.Year)
+                                       }).
+               ToList()), "Select Year !!!")
+
+
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Month", "Month", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Month",
+                            Enumerable.Range(1, 12).
+                            Select(i => new SelectListItem
+                            {
+                                Value = i.ToString(),
+                                Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i),
+                                Selected = (i == DateTime.Now.Month)
+                            }),
+                                "Select Month !!!")
+
+                </div>
+            </div>
+
+        </div>
+        <br />
+
+
+
+
+        <div id="frame" style="border:double; padding:15px;">
+
+
+            <div class="form-group">
+                @Html.Label("Employee", "Employee", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.DropDownList("droplista_employee", (SelectList)ViewBag.Employees_list, "Select employee", new { @class = "form-control", style = "background-color:#39a9ba;color:white" })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Project_1", "Project 1", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.Editor("project1_result", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.Label("Project_2", "Project 2", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.Editor("project2_result", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.allocation_id)
+            <div class="form-group">
+                @Html.Label("hours_per_week", "Hours per week", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.Editor("hours_per_week_result", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("project1_hours", "Project 1 hours", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.Editor("project1_hours", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("project1_cost", "Project 1 Cost", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.Editor("project1_cost", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("project2_hours", "Project 2 hours", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.Editor("project2_hours", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("project2_cost", "Project 2 Cost", htmlAttributes: new { @class = "control-label col-md-5" })
+                <div class="col-md-4">
+                    @Html.Editor("project2_cost", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <br />
+
+        <div id="frame2" style="border:double; padding:15px;">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.gross_salary, "Salary monthly", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.gross_salary, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.gross_salary, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("insurance", "Insurance", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("insurance", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.insurance, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("pension", "Pension", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("pension", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.pension, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("gross_annual_salary", "Gross Annual Salary", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("gross_annual_salary", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+
+    <span>Tutaj będą salaries</span>
+    <table id="projects_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Employee</th>
+                <th>Gross Salary</th>
+                <th>Insurance</th>
+                <th>Pension</th>
+                <th>Project 1</th>
+                <th>Project 2</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Employee</th>
+                <th>Gross Salary</th>
+                <th>Insurance</th>
+                <th>Pension</th>
+                <th>Project 1</th>
+                <th>Project 2</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (staff_time_allocation p in ViewBag.Staff_Time_Allocation_list)
+            {
+                <tr>
+                    <td>@p.id.ToString()</td>
+                    <td>@Html.Action("find_date", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id })</td>
+                    <td>@Html.Action("find_employee", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id })</td>
+                    <td>@p.gross_salary.ToString()</td>
+                    <td>@p.insurance.ToString()</td>
+                    <td>@p.pension.ToString()</td>
+
+                    @{var x = Html.Action("find_company_project1", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id });
+
+                        if (x.ToString() == "1")
+                        {
+                            <td style="background-color:darkcyan; color:white">@Html.Action("find_project1_name", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }), @Html.Action("find_project1_percentage", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }) %, @Html.Action("calculate_project1_hours", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, staff_project_allocation_id = p.allocation_id }) h, £@Html.Action("calculate_project1_cost", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, insurance = p.insurance, pension = p.pension, staff_project_allocation_id = p.allocation_id })</td>
+                        }
+                        else if (x.ToString() == "2")
+                        {
+                            <td style="background-color:orange; color:white">@Html.Action("find_project1_name", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }), @Html.Action("find_project1_percentage", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }) %, @Html.Action("calculate_project1_hours", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, staff_project_allocation_id = p.allocation_id }) h, £@Html.Action("calculate_project1_cost", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, insurance = p.insurance, pension = p.pension, staff_project_allocation_id = p.allocation_id })</td>
+                        }
+                        else if (x.ToString() == "3")
+                        {
+                            <td style="background-color:green; color:white">@Html.Action("find_project1_name", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }), @Html.Action("find_project1_percentage", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }) %, @Html.Action("calculate_project1_hours", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, staff_project_allocation_id = p.allocation_id }) h, £@Html.Action("calculate_project1_cost", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, insurance = p.insurance, pension = p.pension, staff_project_allocation_id = p.allocation_id })</td>
+                        }
+
+
+                    }
+
+
+
+                    @{var y = Html.Action("find_company_project2", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id });
+
+                        if (y.ToString() == "1")
+                        {
+                            <td style="background-color:darkcyan; color:white">@Html.Action("find_project2_name", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }), @Html.Action("find_project2_percentage", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }) %, @Html.Action("calculate_project2_hours", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, staff_project_allocation_id = p.allocation_id }) h, £@Html.Action("calculate_project2_cost", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, insurance = p.insurance, pension = p.pension, staff_project_allocation_id = p.allocation_id })</td>
+                        }
+                        else if (y.ToString() == "2")
+                        {
+                            <td style="background-color:orange; color:white">@Html.Action("find_project2_name", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }), @Html.Action("find_project2_percentage", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }) %, @Html.Action("calculate_project2_hours", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, staff_project_allocation_id = p.allocation_id }) h, £@Html.Action("calculate_project2_cost", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, insurance = p.insurance, pension = p.pension, staff_project_allocation_id = p.allocation_id })</td>
+                        }
+                        else if (y.ToString() == "3")
+                        {
+                            <td style="background-color:green; color:white">@Html.Action("find_project2_name", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }), @Html.Action("find_project2_percentage", "Staff_Time_Allocation", new { staff_project_allocation_id = p.allocation_id }) %, @Html.Action("calculate_project2_hours", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, staff_project_allocation_id = p.allocation_id }) h, £@Html.Action("calculate_project2_cost", "Staff_Time_Allocation", new { gross_salary = p.gross_salary, insurance = p.insurance, pension = p.pension, staff_project_allocation_id = p.allocation_id })</td>
+                        }
+
+
+                    }                   
+
+
+
+
+
+
+
+
+
+                   
+                </tr>
+                        }
+        </tbody>
+
+    </table>
+
+
+
+
+
+
+
+
+
+
+    <script>
+        $(function () {
+            $('.validation-summary-errors').each(function () {
+                $(this).addClass('alert');
+                $(this).addClass('alert-danger');
+            });
+
+            $('form').each(function () {
+                $(this).find('div.form-group').each(function () {
+                    if ($(this).find('span.field-validation-error').length > 0) {
+                        $(this).addClass('has-error');
+                        $(this).find('span.field-validation-error').
+                           removeClass('field-validation-error');
+                    }
+                });
+            });
+
+        });
+    </script>
+
+                        }

@@ -1,0 +1,117 @@
+﻿@using Pati_Project.Controllers;
+@using Pati_Project.Models;
+@model Pati_Project.Models.company
+
+
+<h2>Add new company</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, "Company name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+
+
+}
+
+<span>Tutaj będą firmy</span>
+<table id="companies_table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Company name</th>
+
+
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Company name</th>
+
+
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (company p in ViewBag.Companies_list)
+        {
+
+            var x = p.id;
+
+            if (x.ToString() == "1")
+            {
+                <tr style="background-color:darkcyan; color:white">
+                    <td>@p.id.ToString()</td>
+                    <td>@p.name</td>
+                </tr>
+            }
+            else if (x.ToString() == "2")
+            {
+                <tr style="background-color:orange; color:white">
+                    <td>@p.id.ToString()</td>
+                    <td>@p.name</td>
+                </tr>
+            }
+            else if (x.ToString() == "3")
+            {
+                <tr style="background-color:green; color:white">
+                    <td>@p.id.ToString()</td>
+                    <td>@p.name</td>
+                </tr>
+            }
+
+
+        }
+    </tbody>
+
+</table>
+
+
+
+
+
+<script>
+    $(function () {
+        $('.validation-summary-errors').each(function () {
+            $(this).addClass('alert');
+            $(this).addClass('alert-danger');
+        });
+
+        $('form').each(function () {
+            $(this).find('div.form-group').each(function () {
+                if ($(this).find('span.field-validation-error').length > 0) {
+                    $(this).addClass('has-error');
+                    $(this).find('span.field-validation-error').
+                       removeClass('field-validation-error');
+                }
+            });
+        });
+
+    });
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

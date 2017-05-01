@@ -1,0 +1,166 @@
+﻿@using Pati_Project.Controllers;
+@using Pati_Project.Models;
+@model Pati_Project.Models.employee
+
+
+<h2>Add new employee</h2>
+<div id="employee_form">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.first_name,"First name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.first_name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.surname, "Surname", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.surname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.surname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.age, "Age", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.age, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.age, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.street, "Street", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.street, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.street, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.house_name_number, "House number", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.house_name_number, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.house_name_number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.region, "Region", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.region, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.region, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.post_code, "Post Code", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.post_code, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.post_code, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.hours_per_week, "Hours per week", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.hours_per_week, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.hours_per_week, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<span>Tutaj będą pracownicy</span>
+<table id="employees_table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Surname</th>
+            <th>Age</th>
+            <th>Street</th>
+            <th>House number</th>
+            <th>Region</th>
+            <th>Post Code</th>
+            <th>Hours/week</th>
+
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Surname</th>
+            <th>Age</th>
+            <th>Street</th>
+            <th>House number</th>
+            <th>Region</th>
+            <th>Post Code</th>
+            <th>Hours/week</th>
+
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (employee p in ViewBag.Employees_list)
+        {
+            <tr>
+                <td>@p.id.ToString()</td>
+                <td>@p.first_name</td>
+                <td>@p.surname</td>
+                <td>@p.age.ToString()</td>
+                <td>@p.street</td>
+                <td>@p.house_name_number</td>
+                <td>@p.region</td>
+                <td>@p.post_code</td>
+                <td>@p.hours_per_week</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+
+
+<script>
+    $(function () {
+        $('.validation-summary-errors').each(function () {
+            $(this).addClass('alert');
+            $(this).addClass('alert-danger');
+        });
+
+        $('form').each(function () {
+            $(this).find('div.form-group').each(function () {
+                if ($(this).find('span.field-validation-error').length > 0) {
+                    $(this).addClass('has-error');
+                    $(this).find('span.field-validation-error').
+                       removeClass('field-validation-error');
+                }
+            });
+        });
+
+    });
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
